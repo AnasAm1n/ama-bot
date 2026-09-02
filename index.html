@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="En enkel AMA-chat om Anas."
+    />
+    <title>Spørg mig om alt | Anas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <nav class="topbar" aria-label="Hovednavigation">
+        <a class="brand" href="#top">AMA<span>.</span></a>
+        <a class="nav-link" href="#ask">Åbn chat <span aria-hidden="true">↓</span></a>
+      </nav>
+
+      <section class="hero" id="top">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="status-dot"></span> Åben for spørgsmål</p>
+          <h1>Hej, jeg er<br /><em>Anas</em></h1>
+          <p class="intro">
+            Dette er mit lille hjørne af internettet. Spørg mig om arbejde, passioner,
+            hverdagen eller hvad du ellers er nysgerrig på.
+          </p>
+          <a class="primary-button" href="#ask">Stil et spørgsmål <span aria-hidden="true">↗</span></a>
+        </div>
+
+        <div class="portrait-frame" aria-label="Dit billede">
+          <div class="portrait-placeholder">
+            <img class="portrait-image" src="images/no g.png" alt="Portræt af Anas" />
+          </div>
+        </div>
+      </section>
+
+      <section class="about-grid" aria-labelledby="about-title">
+        <p class="section-number">02</p>
+        <div>
+          <p class="eyebrow">Lidt om mig</p>
+          <h2 id="about-title">Nysgerrig af natur.<br />Altid i gang med noget.</h2>
+        </div>
+        <p class="about-text">
+            lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+      </section>
+
+      <section class="ask-section" id="ask" aria-labelledby="ask-title">
+        <div class="chat-intro">
+          <p class="eyebrow">Din tur</p>
+          <h2 id="ask-title">Spørg mig</h2>
+          <p class="chat-note">Skriv et spørgsmål, så svarer jeg så godt jeg kan.</p>
+        </div>
+        <div class="chat-box">
+          <div class="chat-header">
+            <img class="avatar" src="images/no g.png" alt="Anas" />
+            <div>
+              <strong>Anas' AMA-bot</strong>
+              <span><i class="online-dot"></i> Online</span>
+            </div>
+          </div>
+          <div class="chat-messages" aria-label="Eksempel på en samtale">
+            <div class="message message-bot">
+              <p>Hej! Hvad vil du gerne vide om Anas?</p>
+              <time>12:04</time>
+            </div>
+            <div class="message message-user">
+              <p>Hvad arbejder du med?</p>
+              <time>12:05</time>
+            </div>
+            <div class="message message-bot">
+              <p>Jeg arbejder med [indsæt dit svar her]. Det bedste ved det er, at jeg hele tiden lærer nyt.</p>
+              <time>12:05</time>
+            </div>
+          </div>
+          <form class="ask-form" action="#ask" method="get">
+            <label class="sr-only" for="question">Skriv dit spørgsmål</label>
+            <input id="question" name="question" type="text" placeholder="Skriv et spørgsmål..." autocomplete="off" />
+            <button type="submit" aria-label="Send spørgsmål">↗</button>
+          </form>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span>© 2026 Dit navn</span>
+        <span>Lavede med nysgerrighed</span>
+      </footer>
+    </main>
+  </body>
+</html>
