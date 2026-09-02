@@ -4,8 +4,6 @@
   --paper: #f4f1e9;
   --lime: #c9e86b;
   --line: rgba(32, 35, 34, 0.18);
-  --display: "Space Grotesk", sans-serif;
-  --body: "DM Sans", sans-serif;
 }
 
 * {
@@ -22,7 +20,7 @@ body {
   background-image: radial-gradient(rgba(32, 35, 34, 0.09) 0.7px, transparent 0.7px);
   background-size: 14px 14px;
   color: var(--ink);
-  font-family: var(--body);
+  font-family: "DM Sans", sans-serif;
 }
 
 a {
@@ -48,7 +46,7 @@ a {
 }
 
 .brand {
-  font: 700 1.35rem var(--display);
+  font: 700 1.35rem "Space Grotesk", sans-serif;
   letter-spacing: 0.04em;
 }
 
@@ -60,11 +58,6 @@ a {
 .nav-link {
   color: var(--muted);
   font-size: 0.9rem;
-  transition: color 180ms ease;
-}
-
-.nav-link:hover {
-  color: var(--ink);
 }
 
 .nav-link span {
@@ -105,7 +98,7 @@ a {
 h1,
 h2 {
   margin: 0;
-  font-family: var(--display);
+  font-family: "Space Grotesk", sans-serif;
   letter-spacing: -0.045em;
   line-height: 0.98;
 }
@@ -137,13 +130,6 @@ h1 em {
   background: var(--ink);
   color: var(--paper);
   font-size: 0.9rem;
-  transition: background 180ms ease, color 180ms ease, transform 180ms ease;
-}
-
-.primary-button:hover {
-  background: var(--lime);
-  color: var(--ink);
-  transform: translateY(-3px);
 }
 
 .portrait-frame {
@@ -173,39 +159,8 @@ h1 em {
   object-position: center;
 }
 
-.portrait-label {
-  position: absolute;
-  right: 22px;
-  bottom: 12px;
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-}
-
-.about-grid {
-  display: grid;
-  grid-template-columns: 80px 1fr 0.75fr;
-  gap: 28px;
-  padding: 65px 0 105px;
-  border-top: 1px solid var(--line);
-}
-
-.section-number {
-  margin: 0;
-  color: #779c20;
-  font: 700 1rem var(--display);
-}
-
 h2 {
   font-size: clamp(2.25rem, 4vw, 4.4rem);
-}
-
-.about-text {
-  align-self: end;
-  max-width: 340px;
-  margin: 0;
-  color: var(--muted);
-  line-height: 1.7;
 }
 
 .ask-section {
@@ -264,7 +219,7 @@ h2 {
 }
 
 .chat-header strong {
-  font: 600 0.9rem var(--display);
+  font: 600 0.9rem "Space Grotesk", sans-serif;
 }
 
 .chat-header span {
@@ -336,7 +291,7 @@ h2 {
   outline: 0;
   background: transparent;
   color: var(--ink);
-  font: 1.2rem var(--body);
+  font: 1.2rem "DM Sans", sans-serif;
 }
 
 .ask-form input::placeholder {
@@ -398,32 +353,13 @@ h2 {
     box-shadow: 8px 10px 0 rgba(32, 35, 34, 0.1);
   }
 
-  .about-grid,
   .ask-section {
     grid-template-columns: 1fr;
     gap: 22px;
   }
 
-  .about-grid {
-    padding: 55px 0 90px;
-  }
-
-  .about-text {
-    margin-top: 14px;
-  }
-
   .chat-note {
     margin-top: 18px;
-  }
-
-  .questions-section {
-    padding: 55px 0 90px;
-  }
-
-  .section-heading {
-    align-items: start;
-    flex-direction: column;
-    margin-bottom: 32px;
   }
 
   .ask-section {
