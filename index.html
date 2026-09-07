@@ -20,38 +20,23 @@
     <main class="page-shell">
       <nav class="topbar" aria-label="Hovednavigation">
         <a class="brand" href="#top">AMA<span>.</span></a>
-        <a class="nav-link" href="#ask">Åbn chat <span aria-hidden="true">↓</span></a>
+        <span class="nav-status"><i class="online-dot"></i> Online</span>
       </nav>
 
-      <section class="hero" id="top">
-        <div class="hero-copy">
-          <p class="eyebrow"><span class="status-dot"></span> Åben for spørgsmål</p>
-          <h1>Hej, jeg er<br /><em>A+Chat</em></h1>
-          <p class="intro">
-            
-          </p>
-          <a class="primary-button" href="#ask">Stil et spørgsmål <span aria-hidden="true">↗</span></a>
+      <section class="chat-scene" id="top" aria-labelledby="ask-title">
+        <div class="scene-heading">
+          <p class="eyebrow"><span class="status-dot"></span> Anas' personlige chatbot</p>
+          <h1 id="ask-title">Spørg<br /><em>løs.</em></h1>
         </div>
 
-        <div class="portrait-frame" aria-label="Dit billede">
-          <div class="portrait-placeholder">
-            <img class="portrait-image" src="images/no g.png" alt="Portræt af Anas" />
-          </div>
-        </div>
-      </section>
-
-      <section class="ask-section" id="ask" aria-labelledby="ask-title">
-        <div class="chat-intro">
-          <p class="eyebrow">Din tur</p>
-          <h2 id="ask-title">Spørg mig</h2>
-          <p class="chat-note">Skriv et spørgsmål, så svarer jeg så godt jeg kan.</p>
-        </div>
-        <div class="chat-box">
+        <div class="phone" aria-label="Chat med Anas">
+          <div class="phone-speaker"></div>
+          <div class="phone-screen">
           <div class="chat-header">
             <img class="avatar" src="images/no g.png" alt="Anas" />
             <div>
               <strong>Anas' AMA-bot</strong>
-              <span><i class="online-dot"></i> Online</span>
+              <span><i class="online-dot"></i> Klar til at svare</span>
             </div>
           </div>
           <div class="chat-messages" aria-label="Eksempel på en samtale">
@@ -63,21 +48,31 @@
               <p>Hvad arbejder du med?</p>
               <time>12:05</time>
             </div>
-            <div class="message message-bot">
-              <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perferendis, possimus sint. Beatae dolorum incidunt eos excepturi quisquam autem vero error eveniet laudantium suscipit</p>
+              <div class="message message-bot">
+              <p>Spørg mig om alt fra arbejde til interesser.</p>
               <time>12:05</time>
             </div>
           </div>
-          <form class="ask-form" action="#ask" method="get">
+          <form class="ask-form" action="#ask" method="get" id="ask">
             <label class="sr-only" for="question">Skriv dit spørgsmål</label>
             <input id="question" name="question" type="text" placeholder="Skriv et spørgsmål..." autocomplete="off" />
             <button type="submit" aria-label="Send spørgsmål">↗</button>
           </form>
+          </div>
+          <div class="gameboy-controls" aria-hidden="true">
+            <div class="d-pad"><span></span></div>
+            <div class="action-buttons"><b>B</b><b>A</b></div>
+          </div>
+          <div class="gameboy-label">AMA-BOY</div>
         </div>
+
+        <div class="speech speech-bot"><span>HELLO! I'M<br />ANAS' BOT.</span></div>
+        <div class="speech speech-user"><span>SPØRG MIG<br />OM HVAD SOM HELST :)</span></div>
+        <div class="portrait-badge"><img src="images/no g.png" alt="Portræt af Anas" /></div>
       </section>
 
       <footer class="footer">
-        <span>© 2026 <>
+        <span>© 2026 Anas
         </span>
       </footer>
     </main>

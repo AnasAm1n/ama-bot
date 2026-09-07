@@ -325,6 +325,259 @@ h2 {
   border: 0;
 }
 
+/* Reference-inspired chat composition */
+.nav-status {
+  color: var(--muted);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.chat-scene {
+  position: relative;
+  min-height: 720px;
+  padding: 72px 0 90px;
+}
+
+.scene-heading {
+  position: absolute;
+  top: 116px;
+  left: 0;
+  z-index: 2;
+}
+
+.chat-scene h1 {
+  max-width: 660px;
+  font-size: clamp(3.8rem, 7vw, 7rem);
+}
+
+.speech {
+  position: absolute;
+  z-index: 3;
+  padding: 24px 30px;
+  border: 3px solid var(--ink);
+  border-radius: 18px;
+  box-shadow: 5px 7px 0 rgba(23, 36, 42, .18);
+  color: #fff;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.02rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: .04em;
+}
+
+.speech::after {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  content: "";
+  background: inherit;
+  border-right: 3px solid var(--ink);
+  border-bottom: 3px solid var(--ink);
+}
+
+.speech-bot {
+  top: 170px;
+  right: 5%;
+  background: #9fe044;
+}
+
+.speech-bot::after {
+  right: 28px;
+  bottom: -13px;
+  transform: skew(20deg) rotate(45deg);
+}
+
+.speech-user {
+  bottom: 148px;
+  left: 3%;
+  background: #48c9dc;
+}
+
+.speech-user::after {
+  bottom: -13px;
+  left: 28px;
+  transform: skew(-20deg) rotate(45deg);
+}
+
+.phone {
+  position: relative;
+  width: 330px;
+  margin: 0 auto;
+  padding: 22px 14px 18px;
+  border: 3px solid var(--ink);
+  border-radius: 42px;
+  background: #d7e2df;
+  box-shadow: 12px 16px 0 rgba(23, 36, 42, .16);
+  transform: rotate(-1deg);
+}
+
+.phone-screen {
+  overflow: hidden;
+  min-height: 560px;
+  border: 3px solid var(--ink);
+  border-radius: 27px;
+  background: var(--paper);
+}
+
+.phone-speaker {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  width: 74px;
+  height: 6px;
+  border-radius: 8px;
+  background: var(--ink);
+  transform: translateX(-50%);
+}
+
+.phone-button {
+  width: 38px;
+  height: 38px;
+  margin: 14px auto 0;
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+}
+
+.portrait-badge {
+  position: absolute;
+  right: 22%;
+  bottom: 100px;
+  z-index: 4;
+  width: 112px;
+  height: 112px;
+  overflow: hidden;
+  border: 4px solid var(--ink);
+  border-radius: 50%;
+  background: #9fe044;
+}
+
+.portrait-badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+@media (max-width: 720px) {
+  .chat-scene {
+    min-height: 900px;
+    padding-top: 250px;
+  }
+
+  .scene-heading {
+    top: 58px;
+    left: 0;
+  }
+
+  .phone {
+    width: min(330px, 100%);
+  }
+
+  .speech-bot {
+    top: 170px;
+    right: 0;
+  }
+
+  .speech-user {
+    bottom: 62px;
+    left: 0;
+  }
+
+  .portrait-badge {
+    right: 4%;
+    bottom: 130px;
+    width: 84px;
+    height: 84px;
+  }
+}
+
+/* Handheld console frame */
+.phone {
+  width: 372px;
+  padding: 34px 28px 28px;
+  border: 4px solid #26353a;
+  border-radius: 24px 24px 42px 42px;
+  background: #b9c6c5;
+  box-shadow: 14px 18px 0 rgba(23, 36, 42, .2), inset 4px 4px 0 rgba(255, 255, 255, .32);
+  transform: rotate(-1deg);
+}
+
+.phone-screen {
+  min-height: 430px;
+  border: 10px solid #26353a;
+  border-radius: 12px;
+  background: #9bad8c;
+  box-shadow: inset 0 0 0 3px #607264;
+}
+
+.phone-screen .chat-header {
+  padding: 13px 14px;
+  background: #344b43;
+}
+
+.phone-screen .chat-messages {
+  min-height: 270px;
+  padding: 16px 12px;
+  gap: 8px;
+}
+
+.phone-screen .message {
+  padding: 9px 11px 7px;
+  border-radius: 4px;
+}
+
+.phone-screen .message p { font-size: .77rem; }
+.phone-screen .message-user { background: #c5d67a; }
+.phone-screen .message-bot { background: #d5ddbc; }
+
+.phone-speaker {
+  top: 14px;
+  width: 52px;
+  height: 5px;
+  background: #697877;
+}
+
+.gameboy-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 8px 20px;
+}
+
+.d-pad {
+  position: relative;
+  width: 70px;
+  height: 70px;
+}
+
+.d-pad::before,
+.d-pad::after,
+.d-pad span {
+  position: absolute;
+  content: "";
+  border-radius: 4px;
+  background: #4a3e52;
+  box-shadow: inset 2px 2px 0 rgba(255, 255, 255, .1);
+}
+
+.d-pad::before { top: 0; left: 22px; width: 26px; height: 70px; }
+.d-pad::after { top: 22px; left: 0; width: 70px; height: 26px; }
+.d-pad span { inset: 23px; z-index: 1; background: #4a3e52; }
+
+.action-buttons { display: flex; gap: 16px; align-items: flex-start; transform: rotate(-16deg); }
+.action-buttons b { display: grid; width: 48px; height: 48px; place-items: center; border: 3px solid #3b3042; border-radius: 50%; background: #754c68; color: #d7cbd7; font: 700 1rem "Space Grotesk", sans-serif; box-shadow: 2px 4px 0 #504354; }
+.action-buttons b:last-child { transform: translateY(-12px); }
+
+.gameboy-label { color: #687575; font: 700 .65rem "Space Grotesk", sans-serif; letter-spacing: .2em; text-align: center; }
+
+@media (max-width: 720px) {
+  .phone { width: min(372px, 100%); padding: 30px 22px 24px; }
+  .phone-screen { min-height: 420px; }
+  .speech-bot { top: 170px; }
+}
+
 @media (max-width: 720px) {
   .page-shell {
     width: min(100% - 32px, 560px);
