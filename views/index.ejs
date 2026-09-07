@@ -44,10 +44,15 @@
               <p>Hej! Hvad vil du gerne vide om mig?</p>
               <time>12:04</time>
             </div>
+          <% for (const message of messages) { %>
+            <article class="<%= message.type %>">
+              <p><%= message.text %></p>
+            </article>
+          <% } %>
           </div>
-      <form method="POST" action="/ask">
-  <label for="question">Stil dit spørgsmål her:</label>
-  <input id="question" name="question" type="text" />
+        <form class="ask-form" method="POST" action="/ask">
+      <label class="sr-only" for="question">Stil dit spørgsmål her:</label>
+      <input id="question" name="question" type="text" placeholder="Stil dit spørgsmål..." />
   <button type="submit">Send</button>
 </form>
 
@@ -55,11 +60,31 @@
   <p role="alert"><%= error %></p>
 <% } %>
 
-<% for (const message of messages) { %>
-  <article class="<%= message.type %>">
-    <p><%= message.text %></p>
-  </article>
-<% } %>
+<script>
+  const chatMessages = document.querySelector(".chat-messages");
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+
+  const answerParagraphs = document.querySelectorAll(".chat-messages .answer p");
+  const latestAnswer = answerParagraphs[answerParagraphs.length - 1];
+
+  if (latestAnswer) {
+    const answerText = latestAnswer.textContent;
+    let characterIndex = 0;
+    latestAnswer.textContent = "";
+    latestAnswer.classList.add("typing");
+
+    const typeAnswer = window.setInterval(() => {
+      latestAnswer.textContent += answerText[characterIndex];
+      characterIndex += 1;
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      if (characterIndex >= answerText.length) {
+        window.clearInterval(typeAnswer);
+        latestAnswer.classList.remove("typing");
+      }
+    }, 36);
+  }
+</script>
 
           </div>
           <div class="gameboy-controls" aria-hidden="true">

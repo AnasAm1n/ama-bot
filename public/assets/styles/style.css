@@ -245,14 +245,16 @@ h2 {
   padding: 24px 20px;
 }
 
-.message {
+.message,
+.chat-messages article {
   width: fit-content;
   max-width: 82%;
   padding: 12px 15px 9px;
   border-radius: 8px;
 }
 
-.message p {
+.message p,
+.chat-messages article p {
   margin: 0;
   font-size: 0.9rem;
   line-height: 1.5;
@@ -265,13 +267,35 @@ h2 {
   font-size: 0.65rem;
 }
 
-.message-answer {
+.message-answer,
+.chat-messages .answer {
   background: #e6e1d3;
 }
 
-.message-question {
+.message-question,
+.chat-messages .question {
   align-self: end;
   background: var(--lime);
+}
+
+.answer p.typing::after {
+  display: inline-block;
+  width: 0.48em;
+  height: 0.95em;
+  margin-left: 3px;
+  vertical-align: -0.1em;
+  background: #344b43;
+  content: "";
+  animation: typing-cursor 0.7s steps(2, end) infinite;
+}
+
+.answer p.typing {
+  font-family: "Courier New", monospace;
+  text-shadow: 1px 1px 0 rgba(52, 75, 67, 0.18);
+}
+
+@keyframes typing-cursor {
+  50% { opacity: 0; }
 }
 
 .ask-form {
@@ -299,12 +323,14 @@ h2 {
 }
 
 .ask-form button {
-  width: 50px;
+  width: auto;
+  padding: 0 8px;
   border: 0;
   background: transparent;
   color: var(--ink);
   cursor: pointer;
-  font-size: 1.6rem;
+  font: 700 0.78rem "Space Grotesk", sans-serif;
+  text-transform: uppercase;
 }
 
 .footer {
@@ -495,8 +521,8 @@ h2 {
 
 /* Handheld console frame */
 .phone {
-  width: 372px;
-  padding: 34px 28px 28px;
+  width: 420px;
+  padding: 30px 24px 24px;
   border: 4px solid #26353a;
   border-radius: 24px 24px 42px 42px;
   background: #b9c6c5;
@@ -505,11 +531,13 @@ h2 {
 }
 
 .phone-screen {
-  min-height: 430px;
+  height: 420px;
+  min-height: 0;
   border: 10px solid #26353a;
   border-radius: 12px;
   background: #9bad8c;
   box-shadow: inset 0 0 0 3px #607264;
+  overflow: hidden;
 }
 
 .phone-screen .chat-header {
@@ -518,19 +546,30 @@ h2 {
 }
 
 .phone-screen .chat-messages {
-  min-height: 270px;
+  height: 215px;
+  min-height: 0;
   padding: 16px 12px;
   gap: 8px;
+  overflow-y: auto;
 }
 
-.phone-screen .message {
+.phone-screen .ask-form {
+  margin-top: 28px;
+  margin-bottom: 12px;
+}
+
+.phone-screen .message,
+.phone-screen .chat-messages article {
   padding: 9px 11px 7px;
   border-radius: 4px;
 }
 
-.phone-screen .message p { font-size: .77rem; }
-.phone-screen .message-question { background: #c5d67a; }
-.phone-screen .message-answer { background: #d5ddbc; }
+.phone-screen .message p,
+.phone-screen .chat-messages article p { font-size: .77rem; }
+.phone-screen .message-question,
+.phone-screen .chat-messages .question { background: #c5d67a; }
+.phone-screen .message-answer,
+.phone-screen .chat-messages .answer { background: #d5ddbc; }
 
 .phone-speaker {
   top: 14px;
@@ -573,8 +612,7 @@ h2 {
 .gameboy-label { color: #687575; font: 700 .65rem "Space Grotesk", sans-serif; letter-spacing: .2em; text-align: center; }
 
 @media (max-width: 720px) {
-  .phone { width: min(372px, 100%); padding: 30px 22px 24px; }
-  .phone-screen { min-height: 420px; }
+  .phone { width: min(350px, 100%); padding: 28px 20px 22px; }
   .speech-bot { top: 170px; }
 }
 

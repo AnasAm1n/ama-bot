@@ -10,7 +10,7 @@ app.use(express.static("public"));
 const answers = [
   {
     keywords: ["navn", "hedder", "hvem er du"],
-    answer: "Jeg hedder Ada. Hvad vil du ellers vide om mig?"
+    answer: "Jeg hedder Anas. Hvad vil du ellers vide om mig?"
   },
   {
     keywords: ["bor", "by", "fra"],
@@ -18,7 +18,7 @@ const answers = [
   },
   {
     keywords: ["fritid", "hobby", "kan lide"],
-    answer: "I min fritid kan jeg godt lide at læse og gå ture."
+    answer: "I min fritid kan jeg godt lide at game og træne."
   }
 ];
  
@@ -35,7 +35,6 @@ function findAnswer(question) {
 
   return "Det kender jeg ikke svaret på endnu.";
 }
-console.log(findAnswer("Hvad hedder du?"));
 
 
 app.post("/ask", (request, response) => {
@@ -50,10 +49,10 @@ app.post("/ask", (request, response) => {
     messages.push({ type: "answer", text: answer });
   }
 
-  response.render("index", { messages, error });
+  response.render("index", { messages, error, question });
 });
 app.get("/", (request, response) => {
-  response.render("index", { messages, error: "" });
+  response.render("index", { messages, error: "", question: "" });
 });
 
 app.listen(port, () => {
