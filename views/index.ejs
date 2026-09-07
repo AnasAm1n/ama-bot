@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/assets/styles/style.css" />
   </head>
   <body>
     <main class="page-shell">
@@ -33,7 +33,7 @@
           <div class="phone-speaker"></div>
           <div class="phone-screen">
           <div class="chat-header">
-            <img class="avatar" src="/images/no g.png" alt="Anas" />
+            <img class="avatar" src="/assets/images/no g.png" alt="Anas" />
             <div>
               <strong>A-Boy</strong>
               <span><i class="online-dot"></i> Klar til at svare</span>
@@ -44,20 +44,23 @@
               <p>Hej! Hvad vil du gerne vide om mig?</p>
               <time>12:04</time>
             </div>
-            <div class="message message-user">
-              <p>Hvad arbejder du med?</p>
-              <time>12:05</time>
-            </div>
-              <div class="message message-bot">
-              <p>Spørg mig om alt fra arbejde til interesser.</p>
-              <time>12:05</time>
-            </div>
           </div>
-          <form class="ask-form" action="#ask" method="get" id="ask">
-            <label class="sr-only" for="question">Skriv dit spørgsmål</label>
-            <input id="question" name="question" type="text" placeholder="Skriv et spørgsmål..." autocomplete="off" />
-            <button type="submit" aria-label="Send spørgsmål">↗</button>
-          </form>
+      <form method="POST" action="/ask">
+  <label for="question">Stil dit spørgsmål her:</label>
+  <input id="question" name="question" type="text" />
+  <button type="submit">Send</button>
+</form>
+
+<% if (error) { %>
+  <p role="alert"><%= error %></p>
+<% } %>
+
+<% for (const message of messages) { %>
+  <article class="<%= message.type %>">
+    <p><%= message.text %></p>
+  </article>
+<% } %>
+
           </div>
           <div class="gameboy-controls" aria-hidden="true">
             <div class="d-pad"><span></span></div>
@@ -65,8 +68,7 @@
           </div>
           <div class="gameboy-label">AMA-BOY</div>
         </div>
-        <div class="speech speech-user"><span>SPØRG MIG<br />OM HVAD SOM HELST :)</span></div>
-        <div class="portrait-badge"><img src="/images/no g.png" alt="Portræt af Anas" /></div>
+
       </section>
 
       <footer class="footer">

@@ -265,11 +265,11 @@ h2 {
   font-size: 0.65rem;
 }
 
-.message-bot {
+.message-answer {
   background: #e6e1d3;
 }
 
-.message-user {
+.message-question {
   align-self: end;
   background: var(--lime);
 }
@@ -529,8 +529,8 @@ h2 {
 }
 
 .phone-screen .message p { font-size: .77rem; }
-.phone-screen .message-user { background: #c5d67a; }
-.phone-screen .message-bot { background: #d5ddbc; }
+.phone-screen .message-question { background: #c5d67a; }
+.phone-screen .message-answer { background: #d5ddbc; }
 
 .phone-speaker {
   top: 14px;

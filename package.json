@@ -1,0 +1,26 @@
+{
+  "name": "ama-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  "dev": "node --watch server.js",
+  "start": "node server.js"
+},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AnasAm1n/ama-bot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/AnasAm1n/ama-bot/issues"
+  },
+  "homepage": "https://github.com/AnasAm1n/ama-bot#readme",
+  "dependencies": {
+    "ejs": "^6.0.1",
+    "express": "^5.2.1"
+  }
+}
