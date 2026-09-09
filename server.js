@@ -9,17 +9,25 @@ app.use(express.static("public"));
 
 const answers = [
   {
+    category: "introduction",
     keywords: ["navn", "hedder", "hvem er du"],
     answer: "Jeg hedder Anas. Hvad vil du ellers vide om mig?"
   },
   {
+    category: "location",
     keywords: ["bor", "by", "fra"],
     answer: "Jeg bor i Aarhus."
   },
   {
+    category: "hobby",
     keywords: ["fritid", "hobby", "kan lide"],
     answer: "I min fritid kan jeg godt lide at game og træne."
-  }
+  },
+  {
+    category: "age",
+    keywords: ["alder", "år", "gammel", "ung"],
+    answer: "Jeg er 24 år ung.",
+  },
 ];
  
 function findAnswer(question) {
