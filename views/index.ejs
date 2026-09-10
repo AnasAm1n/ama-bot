@@ -51,12 +51,14 @@
           <% } %>
           </div>
         <form class="ask-form" method="POST" action="/ask">
+      <%# Jeg sender brugerens spørgsmål til POST-routen, når formularen bliver sendt. %>
       <label class="sr-only" for="question">Stil dit spørgsmål her:</label>
       <input id="question" name="question" type="text" placeholder="Stil dit spørgsmål..." />
   <button type="submit">Send</button>
 </form>
 
 <% if (error) { %>
+  <%# Jeg viser kun fejlteksten, når brugeren har sendt et tomt spørgsmål. %>
   <p role="alert"><%= error %></p>
 <% } %>
 
@@ -65,9 +67,10 @@
   chatMessages.scrollTop = chatMessages.scrollHeight;
 
   const answerParagraphs = document.querySelectorAll(".chat-messages .answer p");
-  const latestAnswer = answerParagragphs[answerParagraphs.length - 1];
+  const latestAnswer = answerParagraphs[answerParagraphs.length - 1];
 
   if (latestAnswer) {
+    // Jeg viser det seneste svar bogstav for bogstav for at give chatten en skriveeffekt.
     const answerText = latestAnswer.textContent;
     let characterIndex = 0;
     latestAnswer.textContent = "";
@@ -94,6 +97,18 @@
           <div class="gameboy-label">AMA-BOY</div>
         </div>
 
+      </section>
+
+      <section class="stats-section" aria-labelledby="stats-title">
+        <p class="eyebrow">Samtalestatistik</p>
+        <h2 id="stats-title">Spørgsmål fordelt på emner</h2>
+        <ul class="stats-list">
+          <%# Jeg viser hver kategori og dens aktuelle tæller fra topicStats. %>
+          <li><span>Navn</span><strong><%= topicStats.navn %></strong></li>
+          <li><span>Bosted</span><strong><%= topicStats.bosted %></strong></li>
+          <li><span>Fritid</span><strong><%= topicStats.fritid %></strong></li>
+          <li><span>Alder</span><strong><%= topicStats.alder %></strong></li>
+        </ul>
       </section>
 
       <footer class="footer">
