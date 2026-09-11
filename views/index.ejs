@@ -42,11 +42,12 @@
           <div class="chat-messages" aria-label="Eksempel på en samtale">
             <div class="message message-bot">
               <p>Hej! Hvad vil du gerne vide om mig?</p>
-              <time>12:04</time>
+              <time class="chat-timestamp"><%= currentTime %></time>
             </div>
           <% for (const message of messages) { %>
             <article class="<%= message.type %>">
               <p><%= message.text %></p>
+              <time class="chat-timestamp"><%= message.time %></time>
             </article>
           <% } %>
           </div>

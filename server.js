@@ -47,13 +47,22 @@ const answers = [
       "Jeg er 24 år gammel",
       "Jeg er 24 år ung"
     ]
+  },
+  {
+    category: "Hej",
+    keywords: ["hej", "goddag", "hello"],
+    answers: [
+      "Hej med dig!",
+      "Yo!",
+      "Hello!"
+    ]
   }
 ];
 
 function countMatches(keywords, normalizedQuestion) {
   // Jeg filtrerer keywords, så jeg kun beholder dem, der findes i spørgsmålet.
   const matches = keywords.filter((keyword) => {
-    return normalizedQuestion.includes(keyword);
+    return new RegExp(`\\b${keyword}\\b`).test(normalizedQuestion);
   });
 
   // Jeg bruger længden på det nye array som reglens score.
@@ -91,6 +100,14 @@ function sanitizeQuestion(input) {
   return input.replace(/[\u0000-\u001F\u007F]/g, "");
 }
 
+function getCurrentTime() {
+  return new Intl.DateTimeFormat("da-DK", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Europe/Copenhagen"
+  }).format(new Date());
+}
+
 app.post("/ask", (request, response) => {
   // Jeg henter spørgsmålet fra formularen og fjerner mellemrum i starten og slutningen.
   const question = request.body.question.trim();
@@ -101,9 +118,9 @@ app.post("/ask", (request, response) => {
     error = "Skriv et spørgsmål, før du sender.";
   } else {
     // Jeg gemmer først brugerens spørgsmål, så både spørgsmål og svar kan vises i chatten.
-    messages.push({ type: "question", text: question });
+    messages.push({ type: "question", text: question, time: getCurrentTime() });
     const result = findBestAnswer(question);
-    messages.push({ type: "answer", text: result.answer });
+    messages.push({ type: "answer", text: result.answer, time: getCurrentTime() });
 
     if (result.category) {
       // Jeg bruger kategorien som property-navn for at tælle det valgte emne.
@@ -112,11 +129,23 @@ app.post("/ask", (request, response) => {
   }
 
   // Jeg sender chatten, fejlbeskeden og statistikken videre til EJS.
-  response.render("index", { messages, error, question, topicStats });
+  response.render("index", {
+    messages,
+    error,
+    question,
+    topicStats,
+    currentTime: getCurrentTime()
+  });
 });
 app.get("/", (request, response) => {
   // Jeg viser startsiden med den nuværende chat og statistik uden en fejlbesked.
-  response.render("index", { messages, error: "", question: "", topicStats });
+  response.render("index", {
+    messages,
+    error: "",
+    question: "",
+    topicStats,
+    currentTime: getCurrentTime()
+  });
 });
 
 app.listen(port, () => {

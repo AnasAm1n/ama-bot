@@ -298,11 +298,12 @@ h2 {
   line-height: 1.5;
 }
 
-.message time {
+.chat-timestamp {
   display: block;
   margin-top: 6px;
   color: var(--muted);
-  font-size: 0.65rem;
+  font-size: 0.60rem;
+  line-height: 1;
 }
 
 .message-answer,
