@@ -127,6 +127,7 @@ app.post("/ask", async (request, response) => {
   const question = sanitizeQuestion(request.body?.question || "").trim();
   let error = "";
   const messages = await loadMessages();
+  const topicStats = await loadTopicStats();
 
   if (!question) {
     // Jeg viser en fejl, hvis brugeren sender formularen uden et spørgsmål.
@@ -143,6 +144,7 @@ app.post("/ask", async (request, response) => {
     }
 
     await saveMessages(messages);
+    await saveTopicStats(topicStats);
   }
 
   // Jeg sender chatten, fejlbeskeden og statistikken videre til EJS.
@@ -155,8 +157,14 @@ app.post("/ask", async (request, response) => {
   });
 });
 
+app.post("/clear-messages", async (request, response) => {
+  await saveMessages([]);
+  response.redirect("/");
+});
+
 app.get("/", async (request, response) => {
   const messages = await loadMessages();
+  const topicStats = await loadTopicStats();
 
   response.render("index", {
     messages,

@@ -57,6 +57,9 @@
       <input id="question" name="question" type="text" placeholder="Stil dit spørgsmål..." />
   <button type="submit">Send</button>
 </form>
+<form method="POST" action="/clear-messages">
+  <button type="submit">Ryd beskeder</button>
+</form>
 
 <% if (error) { %>
   <%# Jeg viser kun fejlteksten, når brugeren har sendt et tomt spørgsmål. %>
