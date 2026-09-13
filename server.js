@@ -1,9 +1,19 @@
+import fs from "node:fs/promises";
 import express from "express";
 
 const app = express();
 const port = 3000;
 // Jeg gemmer chatbeskederne i et array, så de kan vises igen efter hvert spørgsmål.
-const messages = [];
+async function loadMessages() {
+const data = await fs.readFile("./data/messages.json", "utf8");
+return JSON.parse(data);
+
+}
+
+async function saveMessages(messages) {
+const json = JSON.stringify(messages, null, 2);
+await fs.writeFile("./data/messages.json", json);
+}
 // Jeg starter alle emnetællere på 0 og opdaterer den valgte kategori senere.
 const topicStats = {
   navn: 0,
@@ -137,15 +147,11 @@ app.post("/ask", (request, response) => {
     currentTime: getCurrentTime()
   });
 });
-app.get("/", (request, response) => {
-  // Jeg viser startsiden med den nuværende chat og statistik uden en fejlbesked.
-  response.render("index", {
-    messages,
-    error: "",
-    question: "",
-    topicStats,
-    currentTime: getCurrentTime()
-  });
+
+app.get("/", async (request, response) => {
+  const messages = await loadMessages();
+
+  response.render("index", { messages, error: "", topicStats });
 });
 
 app.listen(port, () => {
