@@ -15,12 +15,16 @@ const json = JSON.stringify(messages, null, 2);
 await fs.writeFile("./data/messages.json", json);
 }
 // Jeg starter alle emnetællere på 0 og opdaterer den valgte kategori senere.
-const topicStats = {
-  navn: 0,
-  bosted: 0,
-  fritid: 0,
-  alder: 0
-};
+async function loadTopicStats() {
+  const data = await fs.readFile("./data/topic-stats.json", "utf8");
+  return JSON.parse(data);
+}
+
+async function saveTopicStats(topicStats) {
+  const json = JSON.stringify(topicStats, null, 2);
+  await fs.writeFile("./data/topic-stats.json", json);
+}
+
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static("public"));
@@ -118,10 +122,11 @@ function getCurrentTime() {
   }).format(new Date());
 }
 
-app.post("/ask", (request, response) => {
+app.post("/ask", async (request, response) => {
   // Jeg henter spørgsmålet fra formularen og fjerner mellemrum i starten og slutningen.
-  const question = request.body.question.trim();
+  const question = sanitizeQuestion(request.body?.question || "").trim();
   let error = "";
+  const messages = await loadMessages();
 
   if (!question) {
     // Jeg viser en fejl, hvis brugeren sender formularen uden et spørgsmål.
@@ -136,6 +141,8 @@ app.post("/ask", (request, response) => {
       // Jeg bruger kategorien som property-navn for at tælle det valgte emne.
       topicStats[result.category] = topicStats[result.category] + 1;
     }
+
+    await saveMessages(messages);
   }
 
   // Jeg sender chatten, fejlbeskeden og statistikken videre til EJS.
@@ -151,7 +158,12 @@ app.post("/ask", (request, response) => {
 app.get("/", async (request, response) => {
   const messages = await loadMessages();
 
-  response.render("index", { messages, error: "", topicStats });
+  response.render("index", {
+    messages,
+    error: "",
+    topicStats,
+    currentTime: getCurrentTime()
+  });
 });
 
 app.listen(port, () => {

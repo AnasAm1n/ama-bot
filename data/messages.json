@@ -1,1 +1,62 @@
-[]
+[
+  {
+    "type": "question",
+    "text": "hey",
+    "time": "17.08"
+  },
+  {
+    "type": "answer",
+    "text": "Det kender jeg ikke svaret på endnu.",
+    "time": "17.08"
+  },
+  {
+    "type": "question",
+    "text": "hvordna går det",
+    "time": "17.08"
+  },
+  {
+    "type": "answer",
+    "text": "Det kender jeg ikke svaret på endnu.",
+    "time": "17.08"
+  },
+  {
+    "type": "question",
+    "text": "hvor bor du",
+    "time": "17.08"
+  },
+  {
+    "type": "answer",
+    "text": "Jeg bor i Aarhus.",
+    "time": "17.08"
+  },
+  {
+    "type": "question",
+    "text": "hvad er din hobby",
+    "time": "17.08"
+  },
+  {
+    "type": "answer",
+    "text": "I min fritid kan jeg godt lide at læse.",
+    "time": "17.08"
+  },
+  {
+    "type": "question",
+    "text": "hvad er din hobby",
+    "time": "17.09"
+  },
+  {
+    "type": "answer",
+    "text": "I min fritid kan jeg godt lide at læse.",
+    "time": "17.09"
+  },
+  {
+    "type": "question",
+    "text": "hvad er din hobby",
+    "time": "17.10"
+  },
+  {
+    "type": "answer",
+    "text": "Jeg elsker at gå ture, når vejret tillader det.",
+    "time": "17.10"
+  }
+]
