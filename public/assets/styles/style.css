@@ -306,6 +306,17 @@ h2 {
   line-height: 1;
 }
 
+.char-counter {
+  text-align: right;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.char-counter.warning { color: orange; }
+.char-counter.danger { color: red; }
+
+
+
 .message-answer,
 .chat-messages .answer {
   background: #e6e1d3;

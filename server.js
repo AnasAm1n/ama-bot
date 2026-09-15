@@ -26,8 +26,20 @@ async function saveTopicStats(topicStats) {
 }
 
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.set("view engine", "ejs");
 app.use(express.static("public"));
+
+app.post("/key-press", (request, response) => {
+  const key = request.body?.key;
+
+  if (typeof key !== "string" || key.length === 0) {
+    return response.status(400).json({ error: "Der mangler en tast." });
+  }
+
+  console.log("Tast trykket i browseren:", key);
+  return response.sendStatus(204);
+});
 
 
 const answers = [
@@ -69,6 +81,14 @@ const answers = [
       "Hej med dig!",
       "Yo!",
       "Hello!"
+    ]
+  },
+  {
+    category: "Går",
+    keywords: ["Hvordan", "går", "har"],
+    answers: [
+      "Det går fint",
+      "Det går stille og roligt"
     ]
   }
 ];
@@ -121,6 +141,8 @@ function getCurrentTime() {
     timeZone: "Europe/Copenhagen"
   }).format(new Date());
 }
+
+
 
 app.post("/ask", async (request, response) => {
   // Jeg henter spørgsmålet fra formularen og fjerner mellemrum i starten og slutningen.
