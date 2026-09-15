@@ -25,13 +25,7 @@ input.addEventListener("input", function(event) {
     let length = event.target.value.length
     counter.innerText = length
 
-    //Fjern alle klasser
-    container.classList.remove("warning", "danger")
-
-    // Tilføj passende klasser baseret på længde
-    if (length > 200) {
-        container.classList.add("danger")
-    } else if (length > 150) {
-        container.classList.add("warning")
-    }
+    // Keep the warning class in place so its animation only runs on entry.
+    container.classList.toggle("warning", length > 150 && length <= 200)
+    container.classList.toggle("danger", length > 200)
 })
