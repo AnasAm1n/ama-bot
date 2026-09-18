@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "type": "question",
+    "text": "hvor bor du?",
+    "time": "18.52"
+  },
+  {
+    "type": "answer",
+    "text": "Jeg bor i Aarhus.",
+    "time": "18.52"
+  }
+]

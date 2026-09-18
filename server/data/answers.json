@@ -69,26 +69,5 @@
       "Det går fint",
       "Det går stille og roligt"
     ]
-  },
-  {
-    "category": "mad",
-    "keywords": [
-      "mad",
-      "spise",
-      "livret"
-    ],
-    "answers": [
-      "Min livret er lasagne."
-    ],
-    "answer": "Min livret er lasagne."
-  },
-  {
-    "category": "mad",
-    "keywords": [
-      "mad",
-      "spise",
-      "livret"
-    ],
-    "answer": "Min livret er lasagne."
   }
 ]

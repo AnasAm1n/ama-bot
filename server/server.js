@@ -9,8 +9,16 @@ const dataDirectory = path.join(__dirname, "data");
 const port = 3000;
 
 const app = express();
-app.use(express.json());
+app.use(express.json({ limit: "1mb" }));
 app.use(express.static(clientDirectory));
+
+app.use((error, request, response, next) => {
+  if (error instanceof SyntaxError && "body" in error && error.type === "entity.parse.failed") {
+    return response.status(400).json({ error: "Ugyldigt JSON-format. Tjek den sendte data." });
+  }
+
+  return next(error);
+});
 
 async function readJson(fileName) {
   const data = await fs.readFile(path.join(dataDirectory, fileName), "utf8");
@@ -140,11 +148,11 @@ app.put("/answers/:category", async (request, response) => {
 
 app.delete("/answers/:category", async (request, response) => {
   const answers = await loadAnswers();
-  const filteredAnswers = answers.filter(
+  const updatedAnswers = answers.filter(
     (answerRule) => answerRule.category !== request.params.category
   );
 
-  await saveAnswers(filteredAnswers);
+  await saveAnswers(updatedAnswers);
 
   response.send();
 });
