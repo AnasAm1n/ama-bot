@@ -87,7 +87,7 @@ clearButton.addEventListener("click", async () => {
   showError();
 
   try {
-    const response = await fetch("/api/clear-messages", { method: "POST" });
+    const response = await fetch("/messages", { method: "DELETE" });
     if (!response.ok) {
       throw new Error("Kunne ikke rydde beskederne.");
     }

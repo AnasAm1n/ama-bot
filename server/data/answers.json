@@ -1,0 +1,94 @@
+[
+  {
+    "category": "navn",
+    "keywords": [
+      "navn",
+      "hedder",
+      "hvem er du"
+    ],
+    "answers": [
+      "Jeg hedder Anas. Hvad vil du ellers vide om mig?"
+    ]
+  },
+  {
+    "category": "bosted",
+    "keywords": [
+      "bor",
+      "by",
+      "fra"
+    ],
+    "answers": [
+      "Jeg bor i Aarhus."
+    ]
+  },
+  {
+    "category": "fritid",
+    "keywords": [
+      "fritid",
+      "hobby",
+      "kan lide"
+    ],
+    "answers": [
+      "I min fritid kan jeg godt lide at læse.",
+      "Jeg elsker at gå ture, når vejret tillader det."
+    ]
+  },
+  {
+    "category": "alder",
+    "keywords": [
+      "alder",
+      "gammel",
+      "ung"
+    ],
+    "answers": [
+      "Jeg er 24 år gammel",
+      "Jeg er 24 år ung"
+    ]
+  },
+  {
+    "category": "Hej",
+    "keywords": [
+      "hej",
+      "goddag",
+      "hello"
+    ],
+    "answers": [
+      "Hej med dig!",
+      "Yo!",
+      "Hello!"
+    ]
+  },
+  {
+    "category": "Går",
+    "keywords": [
+      "Hvordan",
+      "går",
+      "har"
+    ],
+    "answers": [
+      "Det går fint",
+      "Det går stille og roligt"
+    ]
+  },
+  {
+    "category": "mad",
+    "keywords": [
+      "mad",
+      "spise",
+      "livret"
+    ],
+    "answers": [
+      "Min livret er lasagne."
+    ],
+    "answer": "Min livret er lasagne."
+  },
+  {
+    "category": "mad",
+    "keywords": [
+      "mad",
+      "spise",
+      "livret"
+    ],
+    "answer": "Min livret er lasagne."
+  }
+]

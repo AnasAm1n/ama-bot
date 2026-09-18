@@ -28,6 +28,14 @@ async function loadMessages() {
   return readJson("messages.json");
 }
 
+async function loadAnswers() {
+  return readJson("answers.json");
+}
+
+async function saveAnswers(value) {
+  return writeJson("answers.json", value);
+}
+
 async function loadTopicStats() {
   return readJson("topic-stats.json");
 }
@@ -40,61 +48,28 @@ function getCurrentTime() {
   }).format(new Date());
 }
 
-const answers = [
-  {
-    category: "navn",
-    keywords: ["navn", "hedder", "hvem er du"],
-    answers: ["Jeg hedder Anas. Hvad vil du ellers vide om mig?"]
-  },
-  {
-    category: "bosted",
-    keywords: ["bor", "by", "fra"],
-    answers: ["Jeg bor i Aarhus."]
-  },
-  {
-    category: "fritid",
-    keywords: ["fritid", "hobby", "kan lide"],
-    answers: [
-      "I min fritid kan jeg godt lide at læse.",
-      "Jeg elsker at gå ture, når vejret tillader det."
-    ]
-  },
-  {
-    category: "alder",
-    keywords: ["alder", "gammel", "ung"],
-    answers: ["Jeg er 24 år gammel", "Jeg er 24 år ung"]
-  },
-  {
-    category: "Hej",
-    keywords: ["hej", "goddag", "hello"],
-    answers: ["Hej med dig!", "Yo!", "Hello!"]
-  },
-  {
-    category: "Går",
-    keywords: ["Hvordan", "går", "har"],
-    answers: ["Det går fint", "Det går stille og roligt"]
-  }
-];
-
 function countMatches(keywords, normalizedQuestion) {
   return keywords.filter((keyword) =>
     new RegExp(`\\b${keyword}\\b`, "i").test(normalizedQuestion)
   ).length;
 }
 
-function findBestAnswer(question) {
+function findBestAnswer(question, answerGroups) {
   const normalizedQuestion = question.toLowerCase();
   let bestScore = 0;
   let bestAnswer = "Det kender jeg ikke svaret på endnu.";
   let bestCategory = "";
 
-  for (const answerGroup of answers) {
+  for (const answerGroup of answerGroups) {
     const score = countMatches(answerGroup.keywords, normalizedQuestion);
 
     if (score > bestScore) {
-      const randomIndex = Math.floor(Math.random() * answerGroup.answers.length);
+      const answerTexts = answerGroup.answer !== undefined
+        ? [answerGroup.answer]
+        : answerGroup.answers;
+      const randomIndex = Math.floor(Math.random() * answerTexts.length);
       bestScore = score;
-      bestAnswer = answerGroup.answers[randomIndex];
+      bestAnswer = answerTexts[randomIndex];
       bestCategory = answerGroup.category;
     }
   }
@@ -118,6 +93,62 @@ app.get("/messages", async (request, response) => {
   response.json(messages);
 });
 
+app.get("/answers", async (request, response) => {
+  const answers = await loadAnswers();
+
+  response.json(answers);
+});
+
+app.get("/answers/:category", async (request, response) => {
+  const answers = await loadAnswers();
+  const answerRule = answers.find((a) => a.category === request.params.category);
+
+  response.json(answerRule);
+});
+
+app.delete("/messages", async (request, response) => {
+  await writeJson("messages.json", []);
+
+  return response.json({ messages: [] });
+});
+
+app.post("/answers", async (request, response) => {
+  const answers = await loadAnswers();
+  const newAnswerRule = {
+    category: request.body.category,
+    keywords: request.body.keywords,
+    answer: request.body.answer
+  };
+
+  answers.push(newAnswerRule);
+  await saveAnswers(answers);
+
+  response.json(newAnswerRule);
+});
+
+app.put("/answers/:category", async (request, response) => {
+  const answers = await loadAnswers();
+  const answerRule = answers.find((a) => a.category === request.params.category);
+
+  answerRule.keywords = request.body.keywords;
+  answerRule.answer = request.body.answer;
+
+  await saveAnswers(answers);
+
+  response.json(answerRule);
+});
+
+app.delete("/answers/:category", async (request, response) => {
+  const answers = await loadAnswers();
+  const filteredAnswers = answers.filter(
+    (answerRule) => answerRule.category !== request.params.category
+  );
+
+  await saveAnswers(filteredAnswers);
+
+  response.send();
+});
+
 app.post("/api/ask", async (request, response) => {
   const question = sanitizeQuestion(request.body?.question || "").trim();
 
@@ -127,7 +158,8 @@ app.post("/api/ask", async (request, response) => {
 
   const messages = await loadMessages();
   const topicStats = await loadTopicStats();
-  const result = findBestAnswer(question);
+  const answerRules = await loadAnswers();
+  const result = findBestAnswer(question, answerRules);
 
   messages.push({ type: "question", text: question, time: getCurrentTime() });
   messages.push({ type: "answer", text: result.answer, time: getCurrentTime() });
@@ -163,7 +195,8 @@ app.post("/messages", async (request, response) => {
   const message = { type: "question", text: question, createdAt: new Date().toISOString() };
   messages.push(message);
 
-  const result = findBestAnswer(question);
+  const answerRules = await loadAnswers();
+  const result = findBestAnswer(question, answerRules);
   const answerMessage = {
     type: "answer",
     text: result.answer,
