@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/assets/styles/style.css" />
+    <script src="app.js" defer></script>
   </head>
   <body>
     <main class="page-shell">
@@ -34,13 +35,13 @@
               </div>
               <div class="char-counter"><span id="char-count">0</span>/200</div>
             </div>
-            <div class="chat-messages" aria-label="Samtale"></div>
-            <form class="ask-form" id="ask-form">
+            <section id="messages" class="chat-messages" aria-label="Samtale"></section>
+            <form class="ask-form" id="question-form" method="post" action="/api/ask">
               <label class="sr-only" for="question">Stil dit spørgsmål her:</label>
               <input id="question" name="question" type="text" maxlength="200" placeholder="Stil dit spørgsmål..." autocomplete="off" />
               <button type="submit">Send</button>
             </form>
-            <button type="button" id="clear-messages">Ryd beskeder</button>
+            <button type="button" id="clear-messages-button">Ryd beskeder</button>
             <p id="error-message" role="alert" hidden></p>
           </div>
           <div class="gameboy-controls" aria-hidden="true">
@@ -64,6 +65,5 @@
 
       <footer class="footer"><span>© 2026 Anas</span></footer>
     </main>
-    <script src="/assets/script.js"></script>
   </body>
 </html>

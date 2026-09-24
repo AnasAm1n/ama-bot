@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "dev": "node --watch server.js",
-  "start": "node server.js"
-},
+    "dev": "node --watch server.js",
+    "start": "node server.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AnasAm1n/ama-bot.git"
@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/AnasAm1n/ama-bot#readme",
   "dependencies": {
+    "cors": "^2.8.6",
     "express": "^5.2.1"
   }
 }

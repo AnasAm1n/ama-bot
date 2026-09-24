@@ -2,6 +2,11 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import express from "express";
+import { loadAnswers } from "./data/answers.js";
+import { loadMessages, saveMessages } from "./data/messages.js";
+import answersRouter from "./routes/answers.js";
+import messagesRouter from "./routes/messages.js";
+import cors from "cors";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const clientDirectory = path.resolve(__dirname, "..", "client");
@@ -9,8 +14,11 @@ const dataDirectory = path.join(__dirname, "data");
 const port = 3000;
 
 const app = express();
+app.use(cors());
 app.use(express.json({ limit: "1mb" }));
 app.use(express.static(clientDirectory));
+app.use("/messages", messagesRouter);
+app.use("/answers", answersRouter);
 
 app.use((error, request, response, next) => {
   if (error instanceof SyntaxError && "body" in error && error.type === "entity.parse.failed") {
@@ -30,18 +38,6 @@ async function writeJson(fileName, value) {
     path.join(dataDirectory, fileName),
     JSON.stringify(value, null, 2)
   );
-}
-
-async function loadMessages() {
-  return readJson("messages.json");
-}
-
-async function loadAnswers() {
-  return readJson("answers.json");
-}
-
-async function saveAnswers(value) {
-  return writeJson("answers.json", value);
 }
 
 async function loadTopicStats() {
@@ -95,68 +91,6 @@ app.get("/api/state", async (request, response) => {
   return response.json({ messages, topicStats, currentTime: getCurrentTime() });
 });
 
-app.get("/messages", async (request, response) => {
-  const messages = await loadMessages();
-
-  response.json(messages);
-});
-
-app.get("/answers", async (request, response) => {
-  const answers = await loadAnswers();
-
-  response.json(answers);
-});
-
-app.get("/answers/:category", async (request, response) => {
-  const answers = await loadAnswers();
-  const answerRule = answers.find((a) => a.category === request.params.category);
-
-  response.json(answerRule);
-});
-
-app.delete("/messages", async (request, response) => {
-  await writeJson("messages.json", []);
-
-  return response.json({ messages: [] });
-});
-
-app.post("/answers", async (request, response) => {
-  const answers = await loadAnswers();
-  const newAnswerRule = {
-    category: request.body.category,
-    keywords: request.body.keywords,
-    answer: request.body.answer
-  };
-
-  answers.push(newAnswerRule);
-  await saveAnswers(answers);
-
-  response.json(newAnswerRule);
-});
-
-app.put("/answers/:category", async (request, response) => {
-  const answers = await loadAnswers();
-  const answerRule = answers.find((a) => a.category === request.params.category);
-
-  answerRule.keywords = request.body.keywords;
-  answerRule.answer = request.body.answer;
-
-  await saveAnswers(answers);
-
-  response.json(answerRule);
-});
-
-app.delete("/answers/:category", async (request, response) => {
-  const answers = await loadAnswers();
-  const updatedAnswers = answers.filter(
-    (answerRule) => answerRule.category !== request.params.category
-  );
-
-  await saveAnswers(updatedAnswers);
-
-  response.send();
-});
-
 app.post("/api/ask", async (request, response) => {
   const question = sanitizeQuestion(request.body?.question || "").trim();
 
@@ -176,7 +110,7 @@ app.post("/api/ask", async (request, response) => {
     topicStats[result.category] = (topicStats[result.category] || 0) + 1;
   }
 
-  await writeJson("messages.json", messages);
+  await saveMessages(messages);
   await writeJson("topic-stats.json", topicStats);
 
   return response.json({
@@ -187,34 +121,10 @@ app.post("/api/ask", async (request, response) => {
   });
 });
 
+
 app.post("/api/clear-messages", async (request, response) => {
-  await writeJson("messages.json", []);
+  await saveMessages([]);
   return response.json({ messages: [] });
-});
-
-app.post("/messages", async (request, response) => {
-  const messages = await loadMessages();
-  const question = (request.body?.question || "").trim();
-
-  if (!question) {
-    return response.status(400).json({ error: "Skriv et spørgsmål, før du sender." });
-  }
-
-  const message = { type: "question", text: question, createdAt: new Date().toISOString() };
-  messages.push(message);
-
-  const answerRules = await loadAnswers();
-  const result = findBestAnswer(question, answerRules);
-  const answerMessage = {
-    type: "answer",
-    text: result.answer,
-    createdAt: new Date().toISOString()
-  };
-  messages.push(answerMessage);
-
-  await writeJson("messages.json", messages);
-
-  return response.json({ question: message, answer: answerMessage });
 });
 
 app.post("/key-press", (request, response) => {

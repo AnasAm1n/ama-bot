@@ -1,0 +1,103 @@
+const API_URL = "http://localhost:3000";
+
+const messagesContainer = document.querySelector("#messages");
+const questionForm = document.querySelector("#question-form");
+const questionInput = document.querySelector("#question");
+const clearMessagesButton = document.querySelector("#clear-messages-button");
+const counterValue = document.querySelector("#char-count");
+const counter = document.querySelector(".char-counter");
+
+function renderMessages(messages = []) {
+  messagesContainer.innerHTML = "";
+
+  for (const message of messages) {
+    const article = document.createElement("article");
+    article.className = message.type;
+
+    const text = document.createElement("p");
+    text.textContent = message.text;
+
+    const time = document.createElement("time");
+    time.className = "chat-timestamp";
+    time.textContent = message.time || message.createdAt || "";
+
+    article.append(text, time);
+    messagesContainer.append(article);
+  }
+
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function renderStats(topicStats = {}) {
+  const categories = ["navn", "bosted", "fritid", "alder"];
+
+  categories.forEach((category) => {
+    const statNode = document.querySelector(`#stat-${category}`);
+    if (statNode) {
+      statNode.textContent = topicStats[category] || 0;
+    }
+  });
+}
+
+function updateCharCounter() {
+  const length = questionInput.value.length;
+  counterValue.textContent = length;
+
+  counter.classList.remove("warning", "danger");
+
+  if (length >= 150) {
+    counter.classList.add("warning");
+  }
+
+  if (length >= 200) {
+    counter.classList.add("danger");
+  }
+}
+
+async function loadState() {
+  const response = await fetch(`${API_URL}/api/state`);
+
+  if (!response.ok) {
+    throw new Error("Kunne ikke hente samtale-status.");
+  }
+
+  const state = await response.json();
+  renderMessages(state.messages || []);
+  renderStats(state.topicStats || {});
+}
+
+questionInput.addEventListener("input", updateCharCounter);
+
+questionForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const question = questionInput.value.trim();
+
+  const response = await fetch(`${API_URL}/api/ask`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ question })
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    return;
+  }
+
+  renderMessages(data.messages || []);
+  renderStats(data.topicStats || {});
+  questionInput.value = "";
+  updateCharCounter();
+});
+
+clearMessagesButton.addEventListener("click", async () => {
+  await fetch(`${API_URL}/api/clear-messages`, { method: "POST" });
+  messagesContainer.innerHTML = "";
+  questionInput.value = "";
+  counterValue.textContent = "0";
+  counter.classList.remove("warning", "danger");
+});
+
+updateCharCounter();
+loadState();
