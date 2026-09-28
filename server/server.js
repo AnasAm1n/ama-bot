@@ -127,18 +127,6 @@ app.post("/api/clear-messages", async (request, response) => {
   return response.json({ messages: [] });
 });
 
-app.post("/api/reset-history", async (request, response) => {
-  await saveMessages([]);
-
-  const topicStats = await loadTopicStats();
-  const resetTopicStats = Object.fromEntries(
-    Object.keys(topicStats).map((category) => [category, 0])
-  );
-  await writeJson("topic-stats.json", resetTopicStats);
-
-  return response.json({ messages: [], topicStats: resetTopicStats });
-});
-
 app.post("/key-press", (request, response) => {
   const key = request.body?.key;
 
