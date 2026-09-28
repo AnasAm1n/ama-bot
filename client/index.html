@@ -53,13 +53,27 @@
       </section>
 
       <section class="stats-section" aria-labelledby="stats-title">
-        <p class="eyebrow">Samtalestatistik</p>
-        <h2 id="stats-title">Spørgsmål fordelt på emner</h2>
+        <div class="stats-header">
+          <div>
+            <p class="eyebrow"><span class="status-dot"></span> Player 1 · Save data</p>
+            <h2 id="stats-title">Spørgsmål fordelt på emner</h2>
+          </div>
+          <div class="stats-total">
+            <span class="stats-display-label">QUEST LOG</span>
+            <strong id="stats-total">0</strong>
+            <span>XP</span>
+          </div>
+        </div>
+        <div class="stats-progress" aria-label="Samlet antal spørgsmål">
+          <span class="stats-progress-label">DATA XP</span>
+          <span class="stats-progress-track"><span></span></span>
+          <span class="stats-progress-value">LVL <b id="stats-level">01</b></span>
+        </div>
         <ul class="stats-list">
-          <li><span>Navn</span><strong id="stat-navn">0</strong></li>
-          <li><span>Bosted</span><strong id="stat-bosted">0</strong></li>
-          <li><span>Fritid</span><strong id="stat-fritid">0</strong></li>
-          <li><span>Alder</span><strong id="stat-alder">0</strong></li>
+          <li><div class="stat-card-heading"><span class="stat-index">01</span><span class="stat-label">Navn</span></div><strong id="stat-navn">0</strong><span class="stat-unit">spørgsmål</span><span class="stat-meter" aria-hidden="true"><span></span></span></li>
+          <li><div class="stat-card-heading"><span class="stat-index">02</span><span class="stat-label">Bosted</span></div><strong id="stat-bosted">0</strong><span class="stat-unit">spørgsmål</span><span class="stat-meter" aria-hidden="true"><span></span></span></li>
+          <li><div class="stat-card-heading"><span class="stat-index">03</span><span class="stat-label">Fritid</span></div><strong id="stat-fritid">0</strong><span class="stat-unit">spørgsmål</span><span class="stat-meter" aria-hidden="true"><span></span></span></li>
+          <li><div class="stat-card-heading"><span class="stat-index">04</span><span class="stat-label">Alder</span></div><strong id="stat-alder">0</strong><span class="stat-unit">spørgsmål</span><span class="stat-meter" aria-hidden="true"><span></span></span></li>
         </ul>
       </section>
 

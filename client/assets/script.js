@@ -32,12 +32,26 @@ function renderMessages(messages, currentTime) {
 }
 
 function renderStats(topicStats = {}) {
-  for (const category of ["navn", "bosted", "fritid", "alder"]) {
+  const categories = ["navn", "bosted", "fritid", "alder"];
+  const values = categories.map((category) => Number(topicStats[category]) || 0);
+  const maxValue = Math.max(...values, 1);
+  const total = values.reduce((sum, value) => sum + value, 0);
+  const totalNode = document.querySelector("#stats-total");
+  const levelNode = document.querySelector("#stats-level");
+  const progressNode = document.querySelector(".stats-progress-track span");
+
+  if (totalNode) totalNode.textContent = total;
+  if (levelNode) levelNode.textContent = String(Math.min(99, Math.floor(total / 5) + 1)).padStart(2, "0");
+  if (progressNode) progressNode.style.setProperty("--progress-fill", `${Math.min(100, (total % 5) * 20)}%`);
+
+  categories.forEach((category, index) => {
     const statNode = document.querySelector(`#stat-${category}`);
     if (statNode) {
-      statNode.textContent = topicStats[category] || 0;
+      const value = values[index];
+      statNode.textContent = value;
+      statNode.closest("li")?.style.setProperty("--stat-fill", `${(value / maxValue) * 100}%`);
     }
-  }
+  });
 }
 
 function showError(message = "") {
