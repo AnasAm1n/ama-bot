@@ -4,8 +4,10 @@ const messagesContainer = document.querySelector("#messages");
 const questionForm = document.querySelector("#question-form");
 const questionInput = document.querySelector("#question");
 const clearMessagesButton = document.querySelector("#clear-messages-button");
+const resetHistoryButton = document.querySelector("#reset-history-button");
 const counterValue = document.querySelector("#char-count");
 const counter = document.querySelector(".char-counter");
+const errorMessage = document.querySelector("#error-message");
 
 function renderMessages(messages = []) {
   messagesContainer.innerHTML = "";
@@ -25,6 +27,7 @@ function renderMessages(messages = []) {
     messagesContainer.append(article);
   }
 
+  messagesContainer.append(resetHistoryButton);
   messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
 
@@ -105,10 +108,32 @@ questionForm.addEventListener("submit", async (event) => {
 
 clearMessagesButton.addEventListener("click", async () => {
   await fetch(`${API_URL}/api/clear-messages`, { method: "POST" });
-  messagesContainer.innerHTML = "";
+  renderMessages([]);
   questionInput.value = "";
   counterValue.textContent = "0";
   counter.classList.remove("warning", "danger");
+});
+
+resetHistoryButton.addEventListener("click", async () => {
+  errorMessage.hidden = true;
+
+  try {
+    const response = await fetch(`${API_URL}/api/reset-history`, { method: "POST" });
+
+    if (!response.ok) {
+      throw new Error("Kunne ikke nulstille samtalehistorikken.");
+    }
+
+    const state = await response.json();
+    renderMessages(state.messages);
+    renderStats(state.topicStats);
+    questionInput.value = "";
+    updateCharCounter();
+  } catch (error) {
+    errorMessage.textContent = error.message;
+    errorMessage.hidden = false;
+    console.error(error);
+  }
 });
 
 updateCharCounter();
