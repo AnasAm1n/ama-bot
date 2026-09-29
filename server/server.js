@@ -7,6 +7,7 @@ import { loadMessages, saveMessages } from "./data/messages.js";
 import answersRouter from "./routes/answers.js";
 import messagesRouter from "./routes/messages.js";
 import cors from "cors";
+import { escapeHtml } from "./utils/escapeHtml.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const clientDirectory = path.resolve(__dirname, "..", "client");
@@ -14,19 +15,13 @@ const dataDirectory = path.join(__dirname, "data");
 const port = 3000;
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: ["http://127.0.0.1:5500", "http://localhost:5500"]
+}));
 app.use(express.json({ limit: "1mb" }));
 app.use(express.static(clientDirectory));
 app.use("/messages", messagesRouter);
 app.use("/answers", answersRouter);
-
-app.use((error, request, response, next) => {
-  if (error instanceof SyntaxError && "body" in error && error.type === "entity.parse.failed") {
-    return response.status(400).json({ error: "Ugyldigt JSON-format. Tjek den sendte data." });
-  }
-
-  return next(error);
-});
 
 async function readJson(fileName) {
   const data = await fs.readFile(path.join(dataDirectory, fileName), "utf8");
@@ -103,8 +98,8 @@ app.post("/api/ask", async (request, response) => {
   const answerRules = await loadAnswers();
   const result = findBestAnswer(question, answerRules);
 
-  messages.push({ type: "question", text: question, time: getCurrentTime() });
-  messages.push({ type: "answer", text: result.answer, time: getCurrentTime() });
+  messages.push({ type: "question", text: escapeHtml(question), time: getCurrentTime() });
+  messages.push({ type: "answer", text: escapeHtml(result.answer), time: getCurrentTime() });
 
   if (result.category) {
     topicStats[result.category] = (topicStats[result.category] || 0) + 1;
@@ -116,7 +111,7 @@ app.post("/api/ask", async (request, response) => {
   return response.json({
     messages,
     topicStats,
-    answer: result.answer,
+    answer: escapeHtml(result.answer),
     currentTime: getCurrentTime()
   });
 });
@@ -136,6 +131,23 @@ app.post("/key-press", (request, response) => {
 
   console.log("Tast trykket i browseren:", key);
   return response.sendStatus(204);
+});
+
+app.use((request, response) => {
+  return response.status(404).json({ error: "Ruten blev ikke fundet." });
+});
+
+app.use((error, request, response, next) => {
+  if (response.headersSent) {
+    return next(error);
+  }
+
+  if (error instanceof SyntaxError && "body" in error && error.type === "entity.parse.failed") {
+    return response.status(400).json({ error: "Ugyldigt JSON-format. Tjek den sendte data." });
+  }
+
+  console.error(error);
+  return response.status(500).json({ error: "Der opstod en intern serverfejl." });
 });
 
 app.listen(port, () => {

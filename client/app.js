@@ -1,21 +1,36 @@
 const API_URL = "http://localhost:3000";
 
 const messagesContainer = document.querySelector("#messages");
+const gameboy = document.querySelector(".phone");
 const questionForm = document.querySelector("#question-form");
 const questionInput = document.querySelector("#question");
 const clearMessagesButton = document.querySelector("#clear-messages-button");
 const counterValue = document.querySelector("#char-count");
 const counter = document.querySelector(".char-counter");
+const sendButton = questionForm.querySelector('button[type="submit"]');
+let typingInterval;
 
-function renderMessages(messages = []) {
+function renderMessages(messages = [], animateLastAnswer = false) {
+  clearInterval(typingInterval);
   messagesContainer.innerHTML = "";
 
-  for (const message of messages) {
+  messages.forEach((message, index) => {
     const article = document.createElement("article");
     article.className = message.type;
 
     const text = document.createElement("p");
-    text.textContent = message.text;
+    const shouldAnimate = animateLastAnswer
+      && index === messages.length - 1
+      && message.type === "answer"
+      && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const answerText = Array.from(message.text || "");
+
+    if (shouldAnimate) {
+      text.classList.add("typing");
+      text.setAttribute("aria-label", message.text);
+    } else {
+      text.textContent = message.text;
+    }
 
     const time = document.createElement("time");
     time.className = "chat-timestamp";
@@ -23,7 +38,19 @@ function renderMessages(messages = []) {
 
     article.append(text, time);
     messagesContainer.append(article);
-  }
+    if (shouldAnimate) {
+      let visibleCharacters = 0;
+      typingInterval = setInterval(() => {
+        visibleCharacters += 1;
+        text.textContent = answerText.slice(0, visibleCharacters).join("");
+
+        if (visibleCharacters >= answerText.length) {
+          clearInterval(typingInterval);
+          text.classList.remove("typing");
+        }
+      }, 24);
+    }
+  });
 
   messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
@@ -52,16 +79,17 @@ function renderStats(topicStats = {}) {
 }
 
 function updateCharCounter() {
-  const length = questionInput.value.length;
-  counterValue.textContent = length;
+  const characterCount = questionInput.value.length;
+  counterValue.textContent = characterCount;
+  sendButton.disabled = characterCount >= 200;
 
   counter.classList.remove("warning", "danger");
 
-  if (length >= 150) {
+  if (characterCount >= 150 && characterCount < 200) {
     counter.classList.add("warning");
   }
 
-  if (length >= 200) {
+  if (characterCount >= 200) {
     counter.classList.add("danger");
   }
 }
@@ -82,6 +110,9 @@ questionInput.addEventListener("input", updateCharCounter);
 
 questionForm.addEventListener("submit", async (event) => {
   event.preventDefault();
+  if (sendButton.disabled) {
+    return;
+  }
 
   const question = questionInput.value.trim();
 
@@ -97,18 +128,31 @@ questionForm.addEventListener("submit", async (event) => {
     return;
   }
 
-  renderMessages(data.messages || []);
+  renderMessages(data.messages || [], true);
   renderStats(data.topicStats || {});
   questionInput.value = "";
   updateCharCounter();
 });
 
 clearMessagesButton.addEventListener("click", async () => {
-  await fetch(`${API_URL}/api/clear-messages`, { method: "POST" });
+  const response = await fetch(`${API_URL}/api/clear-messages`, { method: "POST" });
+
+  if (!response.ok) {
+    throw new Error("Kunne ikke rydde beskederne.");
+  }
+
   renderMessages([]);
   questionInput.value = "";
-  counterValue.textContent = "0";
-  counter.classList.remove("warning", "danger");
+  updateCharCounter();
+
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    gameboy.classList.remove("wiggle");
+    void gameboy.offsetWidth;
+    gameboy.classList.add("wiggle");
+    gameboy.addEventListener("animationend", () => {
+      gameboy.classList.remove("wiggle");
+    }, { once: true });
+  }
 });
 
 updateCharCounter();

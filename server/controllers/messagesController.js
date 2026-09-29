@@ -1,5 +1,6 @@
 import { loadAnswers } from "../data/answers.js";
 import { loadMessages, saveMessages } from "../data/messages.js";
+import { escapeHtml } from "../utils/escapeHtml.js";
 
 function countMatches(keywords, normalizedQuestion) {
   return keywords.filter((keyword) =>
@@ -43,25 +44,32 @@ export async function createMessage(request, response) {
     return response.status(400).json({ error: "Skriv et spørgsmål, før du sender." });
   }
 
-  const message = { type: "question", text: question, createdAt: new Date().toISOString() };
+  const message = {
+    type: "question",
+    text: escapeHtml(question),
+    createdAt: new Date().toISOString()
+  };
   messages.push(message);
 
   const answerRules = await loadAnswers();
   const result = findBestAnswer(question, answerRules);
   const answerMessage = {
     type: "answer",
-    text: result.answer,
+    text: escapeHtml(result.answer),
     createdAt: new Date().toISOString()
   };
   messages.push(answerMessage);
 
   await saveMessages(messages);
 
-  return response.json({ question: message, answer: answerMessage });
+  return response.status(201).json({
+    question: message,
+    answer: answerMessage
+  });
 }
 
 export async function deleteMessages(request, response) {
   await saveMessages([]);
 
-  return response.json({ messages: [] });
+  return response.status(204).send();
 }

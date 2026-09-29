@@ -6,8 +6,12 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const messagesFilePath = path.join(__dirname, "messages.json");
 
 export async function loadMessages() {
-  const data = await fs.readFile(messagesFilePath, "utf8");
-  return JSON.parse(data);
+  try {
+    const data = await fs.readFile(messagesFilePath, "utf8");
+    return JSON.parse(data);
+  } catch (error) {
+    throw new Error("Kunne ikke indlæse beskeder.", { cause: error });
+  }
 }
 
 export async function saveMessages(value) {
