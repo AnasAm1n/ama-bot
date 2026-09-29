@@ -1,3 +1,4 @@
+/* Jeg bruger denne CSS som den overordnede design-ramme for hele appen. Det er her jeg sætter farver, spacing og den samlede visuelle tone, så resten af layoutet kan blive mere konsistent og lettere at arbejde i. */
 :root {
   --ink: #202322;
   --muted: #68706b;
@@ -17,6 +18,7 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Denne del styrer den generelle sidebaggrund og den visuelle atmosfære. Jeg vil have den til at føles lidt cyberpunk og retro, men stadig læsbar og stabil, så appen får karakter uden at blive uoverskuelig. */
 body {
   position: relative;
   min-height: 100vh;
@@ -53,6 +55,7 @@ body::after {
   content: "";
 }
 
+/* Jeg har lagt den her baggrund ind for at skabe den digitale matrix-effekt. Det er et visuelt trick, der giver appen mere identitet og styrker den “gameboy/retro”-stemning uden at tage fokus fra selve chatten. */
 .game-background {
   position: fixed;
   inset: 0;
@@ -238,6 +241,7 @@ a {
   justify-content: space-between;
 }
 
+/* Jeg bruger dette blok til at lave statistik-sektionen i et mere “tilpasset” stilunivers. Det skal kunne se ud som gameplay-info, men stadig være læseligt og funktionelt, så dataen bliver let at forstå. */
 .stats-section {
   position: relative;
   width: min(100%, 820px);
@@ -430,7 +434,7 @@ a {
   transition: width 0.35s ease;
 }
 
-/* Keep the compact display usable on narrow screens. */
+/* Jeg holder denne mobile-regel i reserve, så layoutet stadig fungerer på små skærme. Det er vigtigt, fordi appen skal være brugbar uden at blive for kompakt eller helt uoverskuelig på mindre enheder. */
 @media (max-width: 720px) {
   .stats-section {
     width: min(100%, 560px);

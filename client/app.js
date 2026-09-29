@@ -10,6 +10,7 @@ const counter = document.querySelector(".char-counter");
 const sendButton = questionForm.querySelector('button[type="submit"]');
 let typingInterval;
 
+// Jeg har denne funktion, når jeg vil genopbygge chatten ud fra den aktuelle state. Den sørger for at vise alle beskeder korrekt og holder det sidste svar i samme flow, så det kan blive skrevet ud med en lille type-effekt.
 function renderMessages(messages = [], animateLastAnswer = false) {
   clearInterval(typingInterval);
   messagesContainer.innerHTML = "";
@@ -55,6 +56,7 @@ function renderMessages(messages = [], animateLastAnswer = false) {
   messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
 
+// Denne funktion er min hurtige “status-omdeler”. Jeg bruger den til at tage de rå statistikker og omsætte dem til det visuelle niveau, total og stof, så jeg kan se, hvad der fylder mest uden at kigge i dataene.
 function renderStats(topicStats = {}) {
   const categories = ["navn", "bosted", "fritid", "alder"];
   const values = categories.map((category) => Number(topicStats[category]) || 0);
@@ -78,6 +80,7 @@ function renderStats(topicStats = {}) {
   });
 }
 
+// Jeg bruger den her, når jeg vil holde øje med længden af mit spørgsmål. Den fortæller mig, om jeg er i normal-grænsen, i advarselszonen eller allerede over den tilladte grænse.
 function updateCharCounter() {
   const characterCount = questionInput.value.length;
   counterValue.textContent = characterCount;
@@ -94,6 +97,7 @@ function updateCharCounter() {
   }
 }
 
+// Denne funktion er min “startopdatering”. Jeg henter appens aktuelle state fra serveren, så chatten og statistikkerne altid kommer op med den rigtige data, når siden loader.
 async function loadState() {
   const response = await fetch(`${API_URL}/api/state`);
 

@@ -1,4 +1,5 @@
 <!doctype html>
+<!-- Jeg har bygget denne side, så den fungerer som den visuelle “front-door” til hele chatbotten. Det er den del, der sætter stemningen, strukturen og brugervenligheden, så resten af appen kan være mere enkel og fokuseret. -->
 <html lang="da">
   <head>
     <meta charset="UTF-8" />
@@ -12,6 +13,7 @@
     <script src="app.js" defer></script>
   </head>
   <body>
+    <!-- Jeg har lagt den her baggrunds-visualisering ind for at give appen et tydeligt “gameboy”-look. Det gør den mere karakteristisk og hjælper med at skabe den identitet, jeg vil have på hele siden. -->
     <div class="game-background" aria-hidden="true">
       <span class="matrix-digit">0</span>
       <span class="matrix-digit">1</span>
@@ -51,11 +53,13 @@
       <span class="matrix-code matrix-code-six">1001<br />0110<br />0011<br />1100</span>
     </div>
     <main class="page-shell">
+      <!-- Jeg bruger den her topbar som et simpelt navigationslag, så appen får en tydelig overskrift og en lille “online”-status uden at det bliver rodet eller overbelastet. -->
       <nav class="topbar" aria-label="Hovednavigation">
         <a class="brand" href="#top">AMA-Bot<span>.</span></a>
         <span class="nav-status"><i class="online-dot"></i> Online</span>
       </nav>
 
+      <!-- Jeg vil have chatten til at være den centrale del af siden, så det er her den egentlige interaktion sker. Det er den sektion, der gør appen brugbar, og derfor skal den være tydelig og visuel. -->
       <section class="chat-scene" id="top" aria-labelledby="ask-title">
         <div class="scene-heading">
           <p class="eyebrow"><span class="status-dot"></span> A-Boy</p>
@@ -90,6 +94,7 @@
         </div>
       </section>
 
+      <!-- Jeg bruger denne sektion til at vise den samlede statistik i en mere retro, gamified form. Det gør det nemt at se, hvor meget der er blevet spurgt om hver kategori, uden at det føles som en kedelig dashboard. -->
       <section class="stats-section" aria-labelledby="stats-title">
         <div class="stats-header">
           <div>

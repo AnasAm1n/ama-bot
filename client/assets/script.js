@@ -6,6 +6,7 @@ const counter = document.querySelector(".char-counter");
 const errorMessage = document.querySelector("#error-message");
 const clearButton = document.querySelector("#clear-messages-button");
 
+// Jeg bruger den her, når jeg vil tegne samtalen på skærmen. Den bygger chatten fra den data, jeg har, så både velkomstmeddelelsen og historikken ender på samme visuelle måde hver gang.
 function renderMessages(messages, currentTime) {
   chatMessages.replaceChildren();
 
@@ -31,6 +32,7 @@ function renderMessages(messages, currentTime) {
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
+// Denne funktion er min visuelle oversættelse af statistikken. Jeg bruger den til at omsætte værdierne til bars og niveau, så jeg hurtigt kan se, hvilke emner der har fået mest opmærksomhed.
 function renderStats(topicStats = {}) {
   const categories = ["navn", "bosted", "fritid", "alder"];
   const values = categories.map((category) => Number(topicStats[category]) || 0);
@@ -54,11 +56,13 @@ function renderStats(topicStats = {}) {
   });
 }
 
+// Jeg har den her til at vise fejlmeddelelser konsistent. Når noget går galt, kan jeg slå en enkel tekst på uden at skulle håndtere DOM'en manuelt hver gang.
 function showError(message = "") {
   errorMessage.textContent = message;
   errorMessage.hidden = !message;
 }
 
+// Denne funktion henter den samlede app-state, så jeg kan genoprette chatten og statistikkerne fra serveren hver gang siden bliver loadet eller genindlæst.
 async function loadState() {
   const response = await fetch("/api/state");
   if (!response.ok) {
@@ -70,6 +74,7 @@ async function loadState() {
   renderStats(state.topicStats);
 }
 
+// Den her holder styr på, hvor langt mit spørgsmål er. Den er simpel og praktisk, fordi den siger mig, om jeg er tæt på grænsen eller allerede har overskredet den.
 function updateCharCounter() {
   const length = input.value.length;
   counterValue.textContent = length;
