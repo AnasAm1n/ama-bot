@@ -21,6 +21,19 @@
       "Jeg bor i Aarhus."
     ]
   },
+
+  {
+        "category": "fact",
+    "keywords": [
+      "fact",
+      "fakta",
+      "sjovt"
+    ],
+    "answers": [
+      "Jeg har set over 1000 film"
+    ]
+  },
+  
   {
     "category": "fritid",
     "keywords": [

@@ -1,10 +1,11 @@
 {
   "navn": 3,
-  "bosted": 1,
+  "bosted": 2,
   "fritid": 1,
   "hobby": 0,
   "ukendt": 0,
-  "Hej": 5,
+  "Hej": 6,
   "alder": 2,
-  "Går": 1
+  "Går": 1,
+  "fact": 1
 }
